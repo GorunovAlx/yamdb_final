@@ -42,6 +42,6 @@ docker-compose up
 docker-compose exec web python manage.py dumpdata > fixtures.json
 ```
 ### Workflow
-https://github.com/GorunovAlx/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg
+![example workflow](https://github.com/GorunovAlx/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)
 ### Автор
 [Алексей Горюнов](https://github.com/GorunovAlx)
