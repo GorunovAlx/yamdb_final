@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-
 from .utils import current_year, max_value_current_year
 
 User = get_user_model()

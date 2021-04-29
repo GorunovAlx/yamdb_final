@@ -4,7 +4,6 @@ from smtplib import SMTPException
 
 from django.conf import settings
 from django.core.mail import EmailMessage
-
 from rest_framework_simplejwt.tokens import RefreshToken
 
 logging.basicConfig(

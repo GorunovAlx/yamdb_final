@@ -16,6 +16,10 @@
 - Настройте параметры окружения:
 Заполните **.env.example**. Не забудьте убрать **.example**
 ### Запуск проекта
+- Запуск docker-контейнера:
+```
+docker-compose up
+```
 - Настройка миграций:
 ```
 docker-compose exec web python manage.py migrate --noinput
@@ -27,10 +31,6 @@ docker-compose exec web python manage.py createsuperuser
 - Сбор статики:
 ```
 docker-compose exec web python manage.py collectstatic --no-input
-```
-- Запуск docker-контейнера:
-```
-docker-compose up
 ```
 - Чтобы убедиться, что проект работает:
 ```

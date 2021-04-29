@@ -1,20 +1,14 @@
 import logging
 
 from django.contrib.auth import get_user_model
-
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .models import Code
-from .serializers import (
-    CheckEmailCodeSerializer,
-    CodeSerializer,
-    EmailSerializer,
-    UserTokenSerializer,
-)
+from .serializers import (CheckEmailCodeSerializer, CodeSerializer,
+                          EmailSerializer, UserTokenSerializer)
 from .utils import generate_code, get_tokens_for_user, send_message
-
 
 User = get_user_model()
 
