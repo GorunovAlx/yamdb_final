@@ -47,26 +47,43 @@ jobs:
         tags: ${{ secrets.DOCKER_USERNAME }}/api_yamdb:latest
 
   deploy:
+    name: Deploy on server
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     if: github.ref == 'refs/heads/main'
     steps:
+    - name: Check out the repo
+      uses: actions/checkout@v2
+    - name: Add environment variables to .env
+      run: |
+        echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+        echo SERVER_NAMES=${{ secrets.SERVER_NAMES }} >> .env
+        echo DB_NAME=${{ secrets.DB_NAME }} >> .env
+        echo DB_HOST=${{ secrets.DB_HOST }} >> .env
+        echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+        echo POSTGRES_USER=${{ SECRETS.POSTGRES_USER }} >> .env
+        echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
+    - name: Copy file via ssh password
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+        source: ".env,docker-compose.yaml,nginx/default.conf"
+        target: "proj"
     - name: executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
-      env:
-        HOST: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USER }}
-        KEY: ${{ secrets.SSH_KEY }}
-        PASSPHRASE: ${{ secrets.PASSPHRASE }}
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
+          cd proj
           sudo docker pull ${{ secrets.DOCKER_USERNAME }}/api_yamdb
-          sudo docker-compose down --rmi 'local'
-          sudo docker run --rm -d -p 5000:5000 ${{ secrets.DOCKER_USERNAME }}/api_yamdb
+          sudo docker-compose stop
+          sudo docker-compose up -d
 
   send_message:
     runs-on: ubuntu-latest
