@@ -13,13 +13,15 @@ SECRET_KEY = os.environ.get(
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    '84.252.135.121',
     'localhost',
+    '84.252.135.121',
+    '[::1]',
+    'testserver',
     'web',
 ]
 
 INTERNAL_IPS = [
-    '127.0.0.1',
+    '84.252.135.121',
 ]
 
 INSTALLED_APPS = [
