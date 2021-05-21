@@ -14,14 +14,14 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost',
-    '84.252.135.121',
+    '84.201.169.143',
     '[::1]',
     'testserver',
     'web',
 ]
 
 INTERNAL_IPS = [
-    '84.252.135.121',
+    '84.201.169.143',
 ]
 
 INSTALLED_APPS = [
