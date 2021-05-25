@@ -60,6 +60,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
+          sudo apt-get install nginx-extras
           sudo docker pull ${{ secrets.DOCKER_USERNAME }}/yamdb_final:latest
           sudo docker-compose stop
           sudo docker-compose rm web
@@ -72,7 +73,6 @@ jobs:
           echo DB_PORT=${{ secrets.DB_PORT }} >> .env
           sudo docker-compose up -d
           sudo docker-compose exec -T web python manage.py collectstatic --noinput
-          sudo docker-compose exec -T web python manage.py makemigrations --no-input
           sudo docker-compose exec -T web python manage.py migrate --no-input
           sudo docker-compose exec -T web python manage.py loaddata fixtures.json
 
