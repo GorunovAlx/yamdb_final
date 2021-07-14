@@ -1,28 +1,24 @@
 import os
 from datetime import timedelta
 
+from django.core.management.utils import get_random_secret_key
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'api_yamdb.settings')
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ.get(
     'SECRET_KEY',
-    'p&l%385148kslhtyn^##a1)ilz@4zqj=rq&agdol^##zgl9(vs'
+    get_random_secret_key()
 )
 
 DEBUG = False
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '130.193.46.88',
-    '[::1]',
-    'testserver',
-    'web',
-]
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = [] if not any(ALLOWED_HOSTS) else ALLOWED_HOSTS
 
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
+INTERNAL_IPS = os.environ.get('INTERNAL_IPS', '').split(',')
+INTERNAL_IPS = [] if not any(INTERNAL_IPS) else INTERNAL_IPS
 
 INSTALLED_APPS = [
     'users',
@@ -141,8 +137,8 @@ CORS_URLS_REGEX = r'^/api/.*$'
 
 AUTH_USER_MODEL = 'users.User'
 
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
 
-EMAIL_PORT = 587
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
 
 EMAIL_USE_TLS = True
