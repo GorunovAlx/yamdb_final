@@ -14,11 +14,17 @@ SECRET_KEY = os.environ.get(
 
 DEBUG = False
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
-ALLOWED_HOSTS = [] if not any(ALLOWED_HOSTS) else ALLOWED_HOSTS
+ALLOWED_HOSTS = [
+    'localhost',
+    '130.193.46.88',
+    '[::1]',
+    'testserver',
+    'web',
+]
 
-INTERNAL_IPS = os.environ.get('INTERNAL_IPS', '').split(',')
-INTERNAL_IPS = [] if not any(INTERNAL_IPS) else INTERNAL_IPS
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 
 INSTALLED_APPS = [
     'users',
