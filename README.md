@@ -1,4 +1,6 @@
 # api_yamdb
+![yamdb_workflow](https://github.com/GorunovAlx/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)
+
 ### Описание
 Проект YaMDb собирает отзывы (Review) пользователей на произведения (Title). Произведения делятся на категории: «Книги», «Фильмы», «Музыка». Список категорий (Category) может быть расширен (например, можно добавить категорию «Изобразительное искусство» или «Ювелирка»). Сами произведения в YaMDb не хранятся. В каждой категории есть произведения: книги, фильмы или музыка. Читатели оставляют к произведениям текстовые отзывы (Review) и выставляют произведению рейтинг (оценку в диапазоне от одного до десяти). 
 ### Технологии
@@ -40,8 +42,8 @@ redoc: (http://178.154.212.81/redoc/)
 ```
 - Заполнения базы начальными данными:
 ```
-docker-compose exec web python manage.py dumpdata > fixtures.json
+docker-compose exec web python manage.py loaddata fixtures.json
 ```
-![yamdb_workflow](https://github.com/GorunovAlx/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)
+
 ### Автор
 [Алексей Горюнов](https://github.com/GorunovAlx)
