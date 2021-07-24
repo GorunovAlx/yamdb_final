@@ -63,7 +63,6 @@ jobs:
         source: 'nginx/default.conf, docker-compose.yaml'
         target: '~/'
         strip_components: 2
-    steps:
     - name: executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
       with:
