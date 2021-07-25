@@ -52,15 +52,21 @@ jobs:
     needs: build_and_push_to_docker_hub
     if: github.ref == 'refs/heads/main' || 'refs/heads/master'
     steps:
-    - name: copy files
+    - uses: actions/checkout@v2
+    - name: Run a multi-line script
+      run: |
+        mkdir ../build
+        cp -TR . ../build
+        tar -cvf deploy.tar ../build/
+    - name: copy file via ssh password
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
-        passphrase: ${{ secrets.PASSPHRASE }}
-        source: 'nginx/default.conf, docker-compose.yaml'
-        target: '..'
+        port: ${{ secrets.PASSPHRASE }}
+        source: 'deploy.tar'
+        target: '~/folder'
     - name: executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
       with:
