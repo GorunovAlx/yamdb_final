@@ -64,7 +64,7 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
-        port: ${{ secrets.PASSPHRASE }}
+        passphrase: ${{ secrets.PASSPHRASE }}
         source: 'deploy.tar'
         target: '~/folder'
     - name: executing remote ssh commands to deploy
