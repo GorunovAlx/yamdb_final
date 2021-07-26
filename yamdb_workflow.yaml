@@ -52,17 +52,22 @@ jobs:
     needs: build_and_push_to_docker_hub
     if: github.ref == 'refs/heads/main' || 'refs/heads/master'
     steps:
-    - name: copy base files via scp
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
+    - name: Run a multi-line script
+      run: |
+        mkdir ../build
+        cp -a ./nginx/. ../build
+        cp docker-compose.yaml ../build
+        tar -cvf deploy.tar ../build/
+    - name: copy file via ssh password
+      uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
-        overwrite: true
-        source: 'nginx/default.conf, docker-compose.yaml'
+        source: 'deploy.tar'
         target: '~/'
-        strip_components: 2
     - name: executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
       with:
@@ -71,6 +76,10 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
+          mkdir nginx
+          tar -xvf deploy.tar
+          cp build/default.conf nginx/
+          cp build/docker-compose.yaml .
           sudo docker pull ${{ secrets.DOCKER_USERNAME }}/yamdb_final:latest
           sudo docker-compose stop
           sudo docker-compose rm web
