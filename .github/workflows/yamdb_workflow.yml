@@ -76,6 +76,10 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
+          mkdir nginx
+          tar -xvf deploy.tar
+          cp build/default.conf nginx/
+          cp build/docker-compose.yaml .
           sudo docker pull ${{ secrets.DOCKER_USERNAME }}/yamdb_final:latest
           sudo docker-compose stop
           sudo docker-compose rm web
